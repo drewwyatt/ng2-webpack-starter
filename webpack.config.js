@@ -1,4 +1,5 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CommonsChunkPlugin = require('webpack').optimize.CommonsChunkPlugin;
 module.exports = {
     context: __dirname,
     entry: {
@@ -9,7 +10,8 @@ module.exports = {
             'angular2/common',
             'angular2/core',
             'angular2/router',
-            'angular2/http'
+            'angular2/http',
+            'angular2/platform/browser'
         ],
         'app': [
             './src/app/bootstrap'
@@ -31,7 +33,10 @@ module.exports = {
     resolve: {
         extensions: ['','.ts','.js','.json']
     },
-    plugins: [new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' })],
+    plugins: [
+        new CommonsChunkPlugin("angular2", "angular2.bundle.js", Infinity),
+        new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' })
+    ],
     devServer: {
         port: 3000,
         host: "localhost",
